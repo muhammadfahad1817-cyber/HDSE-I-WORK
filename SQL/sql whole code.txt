@@ -1,0 +1,538 @@
+Crud
+
+
+1)	Create Databse
+CREATE Database companyDB;
+
+
+
+2)	Create Table 
+CREATE TABLE users (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+3)	Insert Data 
+INSERT INTO users (name, email) VALUES ('Ali Khan', 'ali@example.com');
+INSERT INTO users (name, email) VALUES ('Sara Ahmed', 'sara@example.com');
+INSERT INTO users (name, email) VALUES ('Usman Tariq', 'usman@example.com');
+INSERT INTO users (name, email) VALUES ('Hina Malik', 'hina@example.com');
+INSERT INTO users (name, email) VALUES ('Fahad Iqbal', 'fahad@example.com');
+INSERT INTO users (name, email) VALUES ('Ayesha Noor', 'ayesha@example.com');
+INSERT INTO users (name, email) VALUES ('Bilal Hussain', 'bilal@example.com');
+INSERT INTO users (name, email) VALUES ('Nida Aslam', 'nida@example.com');
+INSERT INTO users (name, email) VALUES ('Hamza Rauf', 'hamza@example.com');
+INSERT INTO users (name, email) VALUES ('Sana Khan', 'sana@example.com');
+
+
+4)	Create Table Show all data
+SELECT * FROM users;
+
+5)	Specific users show
+SELECT * FROM users WHERE id = 1;
+
+6)	Update users
+SET name = 'Ali Ahmed', email = 'aliahmed@example.com' WHERE id = 1;
+
+7)	Delete users
+DELETE FROM users WHERE id = 1;
+
+
+
+
+
+
+
+CREATE DATABASE practice;
+
+USE practice;
+
+-- 2. Create Students Table
+CREATE TABLE Students (
+    StudentID INT IDENTITY(1,1) PRIMARY KEY,
+    StudentName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE,
+    Age INT,
+    AdmissionDate DATE DEFAULT GETDATE()
+);
+
+-- Insert Students
+INSERT INTO Students (StudentName, Email, Age)
+VALUES
+('Ali', 'ali@gmail.com', 20),
+('Ayesha', 'ayesha@gmail.com', 21),
+('Hamza', 'hamza@gmail.com', 19);
+GO
+
+-- Display Data
+SELECT * FROM Students;
+GO
+
+alter table Students
+ADD City Varchar(50) null;
+
+
+UPDATE Students
+SET City = 'Karachi'
+WHERE City IS NULL;
+GO
+
+
+ALTER TABLE Students
+alter column StudentName varchar(100) 
+ALTER COLUMN Email VARCHAR(100) NULL;
+alter column Age int not null
+
+
+
+
+
+
+-- Step 1: Create Database
+CREATE DATABASE SchoolDBTwo;
+GO
+
+-- Step 2: Select Database
+USE SchoolDBTwo;
+GO
+
+-- Step 3: Create Teachers Table
+CREATE TABLE Teachers
+(
+    TeacherID INT PRIMARY KEY IDENTITY(1,1),
+    TeacherName VARCHAR(50) NOT NULL,
+    Subject VARCHAR(50)
+);
+GO
+
+-- Step 4: Insert Teachers Data
+INSERT INTO Teachers (TeacherName, Subject)
+VALUES
+('Ahmed', 'Database'),
+('Sara', 'English'),
+('Ali', 'Mathematics');
+GO
+
+SELECT * FROM Teachers;
+
+
+-- Step 5: Create Students Table
+CREATE TABLE Students
+(
+    StudentID INT PRIMARY KEY IDENTITY(1,1),
+    StudentName VARCHAR(50) NOT NULL,
+    Age INT,
+    TeacherID INT,
+
+    FOREIGN KEY (TeacherID)
+        REFERENCES Teachers(TeacherID)
+);
+GO
+
+
+-- Step 6: Insert Students Data
+INSERT INTO Students (StudentName, Age, TeacherID)
+VALUES
+('Usman', 20, 1),
+('Hina', 21, 1),
+('Bilal', 19, 2),
+('Ayesha', 22, 3);
+GO
+
+INSERT INTO Students (StudentName, Age, TeacherID)
+VALUES
+('yaseen', 20, 2);
+
+
+
+SELECT * FROM Teachers;
+SELECT * FROM Students;
+GO
+
+
+
+
+
+
+
+create database Schooldbz;
+
+use Schooldbz;
+
+-- Step 3: Create Teachers Table
+CREATE TABLE Teachers
+(
+    TeacherID INT PRIMARY KEY IDENTITY(1,1),
+    TeacherName VARCHAR(50) NOT NULL,
+    
+);
+GO
+
+-- Step 4: Insert Teachers Data
+INSERT INTO Teachers (TeacherName)
+VALUES
+('Hamza'),
+('Rehman'),
+('Jameel');
+GO
+
+
+-- Step 3: Courses Table
+CREATE TABLE Courses
+(
+   CourseID INT PRIMARY KEY IDENTITY(1,1),
+    CourseName VARCHAR(50) NOT NULL,
+);
+GO
+
+-- Step 4: Insert Courses Data
+INSERT INTO Courses (CourseName)
+VALUES
+('IT'),
+('Finance'),
+('Database');
+GO
+
+SELECT * FROM Teachers;
+SELECT * FROM Courses;
+
+
+
+-- Step 5: Create Students Table
+CREATE TABLE Students
+(
+    StudentID INT PRIMARY KEY IDENTITY(1,1),
+    StudentName VARCHAR(50) NOT NULL,
+    Age INT,
+    TeacherID INT,
+	CourseID INT,
+
+    FOREIGN KEY (TeacherID)
+        REFERENCES Teachers(TeacherID),
+		 FOREIGN KEY (CourseID)
+        REFERENCES Courses(CourseID)
+
+
+);
+GO
+
+
+-- Step 6: Insert Students Data
+INSERT INTO Students (StudentName, Age, TeacherID, CourseID)
+VALUES
+('Uzair', 25, 1,1),
+('Aslam', 40, 1,1),
+('Rizwan', 30, 2,2),
+('Alam', 60, 3,3);
+GO
+
+
+
+
+
+
+
+
+SELECT * FROM Teachers;
+SELECT * FROM Students;
+SELECT * FROM Courses;
+
+GO
+
+
+
+
+SELECT
+    Students.StudentID,
+    Students.StudentName,
+    Students.Age,
+	Students.TeacherID,
+	Students.CourseID,
+    Teachers.TeacherName,
+    Courses.CourseName
+
+FROM Students
+
+INNER JOIN Teachers
+ON Students.TeacherID = Teachers.TeacherID
+
+INNER JOIN Courses
+ON Students.CourseID = Courses.CourseID;
+
+
+
+
+
+
+SQL Server – Complete Practical Lecture
+1. Create Database
+CREATE DATABASE CompanyDB;
+GO
+
+USE CompanyDB;
+GO
+2. Create Departments Table
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50) NOT NULL
+);
+3. Create Employees Table
+CREATE TABLE Employees (
+    EmployeeID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50),
+    Age INT,
+    DepartmentID INT,
+    JobTitle VARCHAR(50),
+    Salary DECIMAL(10,2),
+    Bonus DECIMAL(10,2) NULL,
+    City VARCHAR(50),
+    JoiningDate DATE,
+    FOREIGN KEY (DepartmentID)
+    REFERENCES Departments(DepartmentID),
+
+);
+4. Insert Departments
+INSERT INTO Departments
+VALUES
+(10, 'IT'),
+(20, 'HR'),
+(30, 'Finance'),
+(40, 'Sales'),
+(50, 'Marketing');
+5. Insert Employees
+INSERT INTO Employees
+(FirstName, LastName, Age, DepartmentID, JobTitle, Salary, Bonus, City, JoiningDate, ManagerID)
+VALUES
+('Ali', 'Khan', 30, 10, 'Developer', 90000, 5000, 'Karachi', '2022-01-15'),
+('Sara', 'Ahmed', 28, 20, 'Executive', 65000, NULL, 'Lahore', '2021-03-20'),
+('Zain', 'Ahmed', 26, 10, 'Developer', 85000, 3000, 'Karachi', '2023-06-10'),
+('Fatima', 'Noor', 35, 30, 'Manager', 110000, 7000, 'Islamabad', '2020-08-25'),
+('Usman', 'Ali', 24, 20, 'Executive', 55000, NULL, 'Lahore', '2024-02-01'),
+('Hina', 'Khan', 27, 30, 'Accountant', 70000, 4000, 'Islamabad', '2022-11-12'),
+('Ahmed', 'Raza', 32, 10, 'Manager', 150000, 10000, 'Karachi', '2019-05-05'),
+('Ayesha', 'Malik', 29, 40, 'Sales Executive', 60000, 2000, 'Lahore', '2023-04-15'),
+('Hamza', 'Shah', 22, 40, 'Sales Executive', 45000, NULL, 'Karachi', '2024-07-20'),
+('Maria', 'Noor', 31, 50, 'Marketing Manager', 80000, 5000, 'Islamabad', '2021-09-10');
+6. Display Records
+SELECT * FROM Employees;
+
+SELECT * FROM Departments;
+
+
+select * from Employees
+where Salary between 50000 and 100000;
+
+select * from Employees
+where DepartmentID in (10, 40);
+
+select * from Employees
+where DepartmentID not in (10, 40);
+
+
+select * from Employees
+where FirstName like 'Z%';
+
+select * from Employees
+where FirstName like '%a';
+
+select * from Employees
+where FirstName like '%h%';
+
+select * from Employees
+where FirstName like '____';
+
+
+
+
+
+-- Ascending
+SELECT * FROM Employees
+ORDER BY Salary ASC;
+
+-- Descending
+SELECT * FROM Employees
+ORDER BY Salary DESC;
+
+
+-- Top 5 Employees
+SELECT TOP 5 *
+FROM Employees
+ORDER BY Salary DESC;
+
+SELECT TOP 5 *
+FROM Employees
+ORDER BY Salary ASC;
+
+
+SELECT * FROM Employees
+WHERE Bonus IS NULL;
+
+SELECT * FROM Employees
+WHERE Bonus IS NOT NULL;
+
+SELECT
+    Employees.FirstName,
+    Employees.Salary,
+    Departments.DepartmentName
+FROM Employees
+INNER JOIN Departments
+ON Employees.DepartmentID = Departments.DepartmentID;
+
+
+SELECT COUNT(*) AS TotalEmployees
+FROM Employees;
+
+SELECT SUM(Salary) AS TotalSalary
+FROM Employees;
+
+SELECT AVG(Salary) AS AverageSalary
+FROM Employees;
+
+SELECT MIN(Salary) AS MinimumSalary
+FROM Employees;
+
+SELECT MAX(Salary) AS MaximumSalary
+FROM Employees;
+
+
+SELECT
+    DepartmentID,
+    COUNT(*) AS TotalEmployees
+FROM Employees
+GROUP BY DepartmentID;
+
+
+SELECT
+    DepartmentID,
+    AVG(Salary) AS AverageSalary
+FROM Employees
+GROUP BY DepartmentID
+HAVING AVG(Salary) > 60000;
+
+
+SELECT
+    DepartmentID,
+    JobTitle,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary
+FROM Employees
+GROUP BY DepartmentID, JobTitle
+ORDER BY DepartmentID;
+
+
+
+SELECT FirstName, Salary
+FROM Employees
+WHERE Salary > (
+    SELECT AVG(Salary)
+    FROM Employees
+);
+
+
+SELECT
+    FirstName AS EmployeeName,
+    Salary AS MonthlyIncome
+FROM Employees;
+
+
+SELECT ROUND(123.4567, 2) AS RoundedValue;
+
+SELECT ABS(-500) AS AbsoluteValue;
+
+
+
+SELECT UPPER(FirstName)
+FROM Employees;
+
+SELECT LOWER(FirstName)
+FROM Employees;
+
+SELECT LEN(FirstName)
+FROM Employees;
+
+SELECT TRIM('   Ali Khan   ') AS TrimmedName;
+
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName
+FROM Employees;
+
+SELECT SUBSTRING(FirstName, 1, 3)
+FROM Employees;
+
+SELECT REPLACE(City, 'Karachi', 'Lahore')
+FROM Employees;
+
+
+SELECT GETDATE() AS CurrentDateTime;
+
+SELECT YEAR(JoiningDate) AS JoiningYear
+FROM Employees;
+
+SELECT MONTH(JoiningDate) AS JoiningMonth
+FROM Employees;
+
+SELECT DAY(JoiningDate) AS JoiningDay
+FROM Employees;
+
+
+
+-- Add 10 Days
+SELECT DATEADD(DAY, 10, JoiningDate)
+FROM Employees;
+
+-- Add 2 Months
+SELECT DATEADD(MONTH, 2, JoiningDate)
+FROM Employees;
+
+-- Difference in Days
+SELECT
+    FirstName,
+    DATEDIFF(DAY, JoiningDate, GETDATE()) AS DaysWorked
+FROM Employees;
+
+-- Difference in Years
+SELECT
+    FirstName,
+    DATEDIFF(YEAR, JoiningDate, GETDATE()) AS YearDifference
+FROM Employees;
+
+
+
+SELECT
+    FirstName,
+    ISNULL(Bonus, 0) AS Bonus
+FROM Employees;
+
+SELECT
+    FirstName,
+    COALESCE(Bonus, Salary, 0) AS BonusOrSalary
+FROM Employees;
+
+
+
+SELECT
+    FirstName,
+    Salary,
+    CASE
+        WHEN Salary >= 100000 THEN 'High Salary'
+        WHEN Salary >= 60000 THEN 'Medium Salary'
+        ELSE 'Low Salary'
+    END AS SalaryCategory
+FROM Employees;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
