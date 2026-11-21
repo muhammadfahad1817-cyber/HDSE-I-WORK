@@ -526,8 +526,185 @@ FROM Employees;
 
 
 
+CREATE DATABASE SchoolDB;
+GO
+
+USE SchoolDB;
+GO
 
 
+
+CREATE TABLE Teachers
+(
+    TeacherID INT PRIMARY KEY IDENTITY(1,1),
+    TeacherName VARCHAR(50) NOT NULL,
+    Subject VARCHAR(50)
+);
+GO
+
+
+
+INSERT INTO Teachers (TeacherName, Subject)
+VALUES
+('Ahmed', 'Database'),
+('Sara', 'English'),
+('Ali', 'Mathematics'),
+('Usman', 'Computer Science');
+GO
+
+
+
+CREATE TABLE Students
+(
+    StudentID INT PRIMARY KEY IDENTITY(1,1),
+    StudentName VARCHAR(50) NOT NULL,
+    Age INT,
+    TeacherID INT,
+
+    FOREIGN KEY (TeacherID)
+        REFERENCES Teachers(TeacherID)
+);
+GO
+
+
+INSERT INTO Students (StudentName, Age, TeacherID)
+VALUES
+('Hina', 20, 1),
+('Bilal', 19, 2),
+('Ayesha', 22, 3),
+('Hamza', 21, 1),
+('zaid', 21, null);
+GO
+
+
+
+SELECT * FROM Teachers;
+
+
+SELECT * FROM Students;
+
+
+
+
+
+CREATE DATABASE SchoolDB;
+GO
+
+USE SchoolDB;
+GO
+
+
+
+CREATE TABLE Teachers
+(
+    TeacherID INT PRIMARY KEY IDENTITY(1,1),
+    TeacherName VARCHAR(50) NOT NULL,
+    Subject VARCHAR(50)
+);
+GO
+
+
+
+INSERT INTO Teachers (TeacherName, Subject)
+VALUES
+('Ahmed', 'Database'),
+('Sara', 'English'),
+('Ali', 'Mathematics'),
+('Usman', 'Computer Science');
+GO
+
+
+
+CREATE TABLE Students
+(
+    StudentID INT PRIMARY KEY IDENTITY(1,1),
+    StudentName VARCHAR(50) NOT NULL,
+    Age INT,
+    TeacherID INT,
+
+    FOREIGN KEY (TeacherID)
+        REFERENCES Teachers(TeacherID)
+);
+GO
+
+
+INSERT INTO Students (StudentName, Age, TeacherID)
+VALUES
+('Hina', 20, 1),
+('Bilal', 19, 2),
+('Ayesha', 22, 3),
+('Hamza', 21, 1),
+('zaid', 21, null);
+GO
+
+
+
+SELECT * FROM Teachers;
+
+
+SELECT * FROM Students;
+
+
+select
+Students.StudentName,
+Students.Age,
+Teachers.TeacherName,
+Teachers.Subject
+ FROM Students
+  INNER JOIN Teachers 
+  ON Students.TeacherID = Teachers.TeacherID;
+
+
+
+  select
+S.StudentName,
+S.Age,
+T.TeacherName,
+T.Subject
+ FROM Students S
+  INNER JOIN Teachers T
+  ON S.TeacherID = T.TeacherID;
+
+
+    select
+S.StudentName,
+T.TeacherName,
+T.Subject
+ FROM Students S
+  LEFT JOIN Teachers T
+  ON S.TeacherID = T.TeacherID;
+
+
+    select
+S.StudentName,
+S.Age,
+T.TeacherName,
+T.Subject
+ FROM Students S
+  RIGHT JOIN Teachers T
+  ON S.TeacherID = T.TeacherID;
+
+
+
+
+    select
+S.StudentName,
+S.Age,
+T.TeacherName,
+T.Subject
+ FROM Students S
+  FULL OUTER JOIN Teachers T
+  ON S.TeacherID = T.TeacherID;
+
+
+
+
+
+    select
+S.StudentName,
+T.TeacherName
+ FROM Students S
+  CROSS JOIN Teachers T;
 
 
 
