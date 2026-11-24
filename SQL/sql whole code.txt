@@ -710,6 +710,182 @@ T.TeacherName
 
 
 
+-- 1. Delete old database if it exists
+USE master;
+GO
+
+IF DB_ID('ECommerceDB') IS NOT NULL
+BEGIN
+    ALTER DATABASE ECommerceDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE ECommerceDB;
+END
+GO
+
+-- 2. Create Database
+CREATE DATABASE ECommerceDB;
+GO
+
+USE ECommerceDB;
+GO
+
+-- 3. Customers Table
+CREATE TABLE Customers
+(
+    CustomerID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Phone VARCHAR(20),
+    Address VARCHAR(200)
+);
+GO
+
+-- 4. Categories Table
+CREATE TABLE Categories
+(
+    CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryName VARCHAR(100) NOT NULL,
+    Description VARCHAR(200)
+);
+GO
+
+-- 5. Products Table
+CREATE TABLE Products
+(
+    ProductID INT IDENTITY(1,1) PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    CategoryID INT NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Stock INT NOT NULL,
+
+    FOREIGN KEY (CategoryID)
+    REFERENCES Categories(CategoryID)
+);
+GO
+
+-- 6. Orders Table
+CREATE TABLE Orders
+(
+    OrderID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    OrderDate DATE DEFAULT GETDATE(),
+    TotalAmount DECIMAL(10,2),
+    OrderStatus VARCHAR(50) DEFAULT 'Pending',
+
+    FOREIGN KEY (CustomerID)
+    REFERENCES Customers(CustomerID)
+);
+GO
+
+-- 7. OrderDetails Table
+CREATE TABLE OrderDetails
+(
+    OrderDetailID INT IDENTITY(1,1) PRIMARY KEY,
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10,2) NOT NULL,
+
+    FOREIGN KEY (OrderID)
+    REFERENCES Orders(OrderID),
+
+    FOREIGN KEY (ProductID)
+    REFERENCES Products(ProductID)
+);
+GO
+
+-- 8. Insert Customers
+INSERT INTO Customers
+(CustomerName, Email, Phone, Address)
+VALUES
+('Ali Ahmed', 'ali@gmail.com', '03001234567', 'Karachi'),
+('Ahmed Khan', 'ahmed@gmail.com', '03111234567', 'Lahore'),
+('Sara Malik', 'sara@gmail.com', '03221234567', 'Islamabad'),
+('Usman Ali', 'usman@gmail.com', '03331234567', 'Karachi'),
+('Ayesha Noor', 'ayesha@gmail.com', '03441234567', 'Multan');
+GO
+
+-- 9. Insert Categories
+INSERT INTO Categories
+(CategoryName, Description)
+VALUES
+('Electronics', 'Electronic products'),
+('Clothing', 'Mens and womens clothing'),
+('Shoes', 'All types of shoes'),
+('Accessories', 'Fashion accessories'),
+('Home Appliances', 'Household electronic items');
+GO
+
+-- 10. Insert Products
+INSERT INTO Products
+(ProductName, CategoryID, Price, Stock)
+VALUES
+('Samsung Mobile', 1, 55000, 20),
+('HP Laptop', 1, 120000, 10),
+('Mens T-Shirt', 2, 1500, 50),
+('Nike Shoes', 3, 8000, 15),
+('Smart Watch', 4, 5000, 25),
+('Washing Machine', 5, 65000, 8),
+('Headphones', 1, 2500, 30),
+('Ladies Handbag', 4, 3500, 12);
+GO
+
+-- 11. Insert Orders
+INSERT INTO Orders
+(CustomerID, OrderDate, TotalAmount, OrderStatus)
+VALUES
+(1, '2026-11-20', 57500, 'Completed'),
+(2, '2026-11-21', 120000, 'Pending'),
+(3, '2026-11-22', 9500, 'Shipped'),
+(4, '2026-11-23', 8000, 'Completed'),
+(5, '2026-11-24', 68500, 'Pending');
+GO
+
+-- 12. Insert OrderDetails
+INSERT INTO OrderDetails
+(OrderID, ProductID, Quantity, UnitPrice)
+VALUES
+(1, 1, 1, 55000),
+(1, 7, 1, 2500),
+(2, 2, 1, 120000),
+(3, 3, 1, 1500),
+(3, 4, 1, 8000),
+(4, 4, 1, 8000),
+(5, 6, 1, 65000),
+(5, 5, 1, 3500);
+GO
+
+-- 13. Display All Tables
+SELECT * FROM Customers;
+SELECT * FROM Categories;
+SELECT * FROM Products;
+SELECT * FROM Orders;
+SELECT * FROM OrderDetails;
+GO
+
+-- 14. Complete Order Details with JOIN
+SELECT
+    O.OrderID,
+    C.CustomerName,
+    P.ProductName,
+    OD.Quantity,
+    OD.UnitPrice,
+    (OD.Quantity * OD.UnitPrice) AS SubTotal,
+    O.TotalAmount,
+    O.OrderStatus
+FROM Orders O
+INNER JOIN Customers C
+    ON O.CustomerID = C.CustomerID
+INNER JOIN OrderDetails OD
+    ON O.OrderID = OD.OrderID
+INNER JOIN Products P
+    ON OD.ProductID = P.ProductID;
+GO
+
+
+
+
+
+
 
 
 
