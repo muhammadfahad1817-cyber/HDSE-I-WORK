@@ -884,8 +884,122 @@ GO
 
 
 
+create table students (
+     id int primary key,
+	 name varchar (30),
+	 marks int
+	 );
+
+	 insert into students
+	 values
+	 (1, 'Ali', 70),
+	 (2, 'Ali raza', 80),
+	 (3, 'Aliyan', 90);
+
+	 begin transaction 
+	 update students set marks = 33 where id = 1;
+	 rollback;
+	 
+	 select * from students;
+
+	 
+BEGIN TRANSACTION;
+UPDATE students SET marks = 95 WHERE id = 3;
+COMMIT;
+
+-- Ab ROLLBACK karne se kuch wapas nahi hoga
+
+-- ROLLBACK; undo
+
+BEGIN TRANSACTION;
+UPDATE students SET marks = 50 WHERE id = 1;
+ROLLBACK;
 
 
+
+CREATE DATABASE HospitalDB;
+GO
+
+USE HospitalDB;
+GO
+
+CREATE TABLE Doctors
+(
+    DoctorID INT PRIMARY KEY,
+    DoctorName VARCHAR(50),
+    Specialization VARCHAR(50)
+);
+
+CREATE TABLE Patients
+(
+    PatientID INT PRIMARY KEY,
+    PatientName VARCHAR(50),
+    Age INT,
+    DoctorID INT NOT NULL,
+
+    FOREIGN KEY (DoctorID)
+    REFERENCES Doctors(DoctorID)
+);
+
+
+INSERT INTO Doctors
+(DoctorID, DoctorName, Specialization)
+VALUES
+(1, 'Ahmed Khan', 'Cardiologist'),
+(2, 'Sara Ali', 'Neurologist'),
+(3, 'Usman Malik', 'Dentist'),
+(4, 'Ayesha Noor', 'Dermatologist');
+
+INSERT INTO Patients
+(PatientID, PatientName, Age, DoctorID)
+VALUES
+(101, 'Ali Raza', 25, 1),
+(102, 'Hassan Ahmed', 35, 2),
+(103, 'Fatima Khan', 28, 1),
+(104, 'Bilal Shah', 45, 3),
+(105, 'Zain Abbas', 19, 4);
+
+
+
+SELECT * FROM Doctors;
+
+SELECT * FROM Patients;
+
+SELECT
+    Patients.PatientName,
+    Patients.Age,
+    Doctors.DoctorName,
+    Doctors.Specialization
+FROM Patients
+INNER JOIN Doctors
+ON Patients.DoctorID = Doctors.DoctorID;
+
+
+SELECT
+    Patients.PatientName,
+    Doctors.DoctorName,
+    Doctors.Specialization
+FROM Patients
+LEFT JOIN Doctors
+ON Patients.DoctorID = Doctors.DoctorID;
+
+
+SELECT
+    Patients.PatientName,
+    Doctors.DoctorName,
+    Doctors.Specialization
+FROM Patients
+RIGHT JOIN Doctors
+ON Patients.DoctorID = Doctors.DoctorID;
+
+
+SELECT
+    Patients.PatientName,
+    Doctors.DoctorName,
+    Doctors.Specialization
+FROM Patients
+FULL OUTER JOIN Doctors
+ON Patients.DoctorID = Doctors.DoctorID;
 
 
 
