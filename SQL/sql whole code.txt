@@ -1003,3 +1003,253 @@ ON Patients.DoctorID = Doctors.DoctorID;
 
 
 
+
+CREATE DATABASE RelationshipDB;
+GO
+
+USE RelationshipDB;
+GO
+
+CREATE TABLE Persons
+(
+    PersonID INT PRIMARY KEY,
+    PersonName VARCHAR(50)
+);
+
+CREATE TABLE Passports
+(
+    PassportID INT PRIMARY KEY,
+    PassportNumber VARCHAR(30),
+    PersonID INT UNIQUE NOT NULL,
+
+    CONSTRAINT FK_Passport_Person
+    FOREIGN KEY (PersonID)
+    REFERENCES Persons(PersonID)
+);
+
+INSERT INTO Persons VALUES
+(1,'Ali'),
+(2,'Ahmed'),
+(3,'Usman');
+
+INSERT INTO Passports VALUES
+(101,'PK1001',1),
+(102,'PK1002',2),
+(103,'PK1003',3);
+
+SELECT * FROM Persons;
+SELECT * FROM Passports;
+
+
+CREATE TABLE Customers
+(
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(50)
+);
+
+CREATE TABLE Orders
+(
+    OrderID INT PRIMARY KEY,
+    OrderName VARCHAR(50),
+    CustomerID INT,
+
+    CONSTRAINT FK_Orders_Customers
+    FOREIGN KEY (CustomerID)
+    REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE Payments
+(
+    PaymentID INT PRIMARY KEY,
+    Amount DECIMAL(10,2),
+    CustomerID INT,
+
+    CONSTRAINT FK_Payments_Customers
+    FOREIGN KEY (CustomerID)
+    REFERENCES Customers(CustomerID)
+);
+
+INSERT INTO Customers VALUES
+(1,'Ali'),
+(2,'Ahmed'),
+(3,'Bilal');
+
+INSERT INTO Orders VALUES
+(101,'Laptop',1),
+(102,'Mobile',1),
+(103,'Keyboard',2),
+(104,'Mouse',3);
+
+INSERT INTO Payments VALUES
+(201,50000,1),
+(202,20000,1),
+(203,15000,2),
+(204,30000,3);
+
+SELECT * FROM Customers;
+SELECT * FROM Orders;
+SELECT * FROM Payments;
+
+
+
+CREATE TABLE Departments
+(
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+CREATE TABLE Employees
+(
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    DepartmentID INT,
+
+    CONSTRAINT FK_Employees_Departments
+    FOREIGN KEY (DepartmentID)
+    REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Projects
+(
+    ProjectID INT PRIMARY KEY,
+    ProjectName VARCHAR(50),
+    DepartmentID INT,
+
+    CONSTRAINT FK_Projects_Departments
+    FOREIGN KEY (DepartmentID)
+    REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Departments VALUES
+(1,'IT'),
+(2,'HR'),
+(3,'Finance');
+
+INSERT INTO Employees VALUES
+(101,'Ali',1),
+(102,'Ahmed',1),
+(103,'Usman',2),
+(104,'Bilal',3);
+
+INSERT INTO Projects VALUES
+(201,'Website',1),
+(202,'Software',1),
+(203,'Recruitment',2),
+(204,'Accounting',3);
+
+SELECT * FROM Departments;
+SELECT * FROM Employees;
+SELECT * FROM Projects;
+
+
+CREATE TABLE Students
+(
+    StudentID INT PRIMARY KEY,
+    StudentName VARCHAR(50)
+);
+
+CREATE TABLE Courses
+(
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(50)
+);
+
+CREATE TABLE StudentCourses
+(
+    StudentID INT,
+    CourseID INT,
+
+    CONSTRAINT PK_StudentCourses
+    PRIMARY KEY (StudentID, CourseID),
+
+    CONSTRAINT FK_StudentCourses_Students
+    FOREIGN KEY (StudentID)
+    REFERENCES Students(StudentID),
+
+    CONSTRAINT FK_StudentCourses_Courses
+    FOREIGN KEY (CourseID)
+    REFERENCES Courses(CourseID)
+);
+
+INSERT INTO Students VALUES
+(1,'Ali'),
+(2,'Ahmed'),
+(3,'Usman');
+
+INSERT INTO Courses VALUES
+(101,'Database'),
+(102,'Programming'),
+(103,'Networking');
+
+INSERT INTO StudentCourses VALUES
+(1,101),
+(1,102),
+(2,101),
+(2,103),
+(3,102),
+(3,103);
+
+SELECT * FROM Students;
+SELECT * FROM Courses;
+SELECT * FROM StudentCourses;
+
+
+SELECT
+    
+    Persons.PersonName,
+    Passports.PassportNumber
+FROM Persons
+INNER JOIN Passports
+ON Persons.PersonID = Passports.PersonID;
+
+
+SELECT
+    Customers.CustomerID,
+    Customers.CustomerName,
+    Orders.OrderID,
+    Orders.OrderName
+FROM Customers
+INNER JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID;
+
+
+
+SELECT
+    Customers.CustomerID,
+    Customers.CustomerName,
+    Payments.PaymentID,
+    Payments.Amount
+FROM Customers
+INNER JOIN Payments
+ON Customers.CustomerID = Payments.CustomerID;
+
+
+
+SELECT
+    Employees.EmployeeID,
+    Employees.EmployeeName,
+    Departments.DepartmentID,
+    Departments.DepartmentName
+FROM Employees
+INNER JOIN Departments
+ON Employees.DepartmentID = Departments.DepartmentID;
+
+
+SELECT
+    Students.StudentID,
+    Students.StudentName,
+    Courses.CourseID,
+    Courses.CourseName
+FROM Students
+INNER JOIN StudentCourses
+ON Students.StudentID = StudentCourses.StudentID
+
+INNER JOIN Courses
+ON StudentCourses.CourseID = Courses.CourseID;
+
+
+
+
+
+
+
